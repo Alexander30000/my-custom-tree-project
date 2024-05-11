@@ -1,4 +1,3 @@
-package main.java.org.example;
 
 import java.io.Serializable;
 import java.util.*;
@@ -35,7 +34,8 @@ public class CustomTree extends AbstractList<String> implements Serializable, Cl
         /**
          * boolean field to store information about child Entry's status
          */
-        boolean availableToAddLeftChildren, availableToAddRightChildren;
+        boolean availableToAddLeftChildren;
+        boolean availableToAddRightChildren;
 
         /**
          * fields to store linked Entry<T> objects
@@ -49,7 +49,8 @@ public class CustomTree extends AbstractList<String> implements Serializable, Cl
          */
         public Entry(String elementName) {
             this.elementName = elementName;
-            availableToAddLeftChildren = availableToAddRightChildren = true;
+            availableToAddLeftChildren = true;
+            availableToAddRightChildren = true;
         }
 
         /**
@@ -106,7 +107,6 @@ public class CustomTree extends AbstractList<String> implements Serializable, Cl
                     node.parent.rightChild = null;
                     node.parent.availableToAddRightChildren = true;
                 }
-
                 return true;
             }
 
@@ -118,7 +118,6 @@ public class CustomTree extends AbstractList<String> implements Serializable, Cl
                 nodes.offer(node.rightChild);
             }
         }
-
         return false;
     }
 
@@ -199,12 +198,12 @@ public class CustomTree extends AbstractList<String> implements Serializable, Cl
      */
     private boolean appendChild(String s, Entry<String> node, final String child) {
 
-        if(child.equals(LEFT)){
+        if(child == LEFT){
             node.leftChild = new Entry<>(s);
             node.leftChild.parent = node;
             node.checkChildren();
             return true;
-        } else if(child.equals(LEFT)){
+        } else if(child == RIGHT){
             node.rightChild = new Entry<>(s);
             node.rightChild.parent = node;
             node.checkChildren();
@@ -219,7 +218,7 @@ public class CustomTree extends AbstractList<String> implements Serializable, Cl
      * @param elementName
      * @return String
      */
-    public String getParent(String elementName) {
+    private String getParent(String elementName) {
 
         // create Queue of Entry<String> objects
         Queue<Entry<String>> nodes = new LinkedList<>(Collections.singletonList(root));
